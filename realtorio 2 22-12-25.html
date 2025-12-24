@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Atendimentos - Suporte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: rgba(0,0,0,0.25);
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+        }
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+        .header p {
+            font-size: 14px;
+            color: #d0d0d0;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: rgba(12,20,35,0.95);
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+        }
+        .card h2 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #e0e6ff;
+        }
+        .kpi-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .kpi-value2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .kpi-sub {
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+        
+        .kpi-blue { 
+            font-size: 12px;
+            color:#4aa3ff; 
+        }
+
+        .kpi-ok { color: #4cd964; }
+        .kpi-alert { color: #ffcc00; }
+
+        .flex-row {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+        .table thead {
+            background: rgba(255,255,255,0.04);
+        }
+        .table th, .table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            text-align: left;
+        }
+        .table th {
+            font-weight: 600;
+            color: #e0e6ff;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+        }
+        .badge-incidente { background: rgba(52,152,219,0.18); color: #4aa3ff; }
+        .badge-requisicao { background: rgba(46,204,113,0.18); color: #6de08d; }
+        .badge-outros { background: rgba(241,196,15,0.18); color: #f7d95a; }
+        .badge-problema { background: rgba(231,76,60,0.18); color: #ff826e; }
+
+        .insights-list {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .insights-list li {
+            margin-bottom: 6px;
+        }
+
+        canvas {
+            width: 100% !important;
+            max-height: 260px;
+        }
+
+        @media (max-width: 768px) {
+            .flex-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Relatório de Atendimentos - Suporte Técnico</h1>
+        <p>Período analisado: 23/12/2025</p>
+    </div>
+
+    <!-- KPIs principais -->
+    <div class="kpi-grid">
+        <div class="card">
+            <h2>Sem Demandas Criticas</h2>
+            <div class="kpi-value kpi-ok">✓</div>
+            <!-- <div class="kpi-value kpi-alert">2</div>
+            <div class="kpi-sub"><td><span class="badge badge-incidente">Hannover</span></td> </div>
+            <div class="kpi-sub">202512224 <br>Pedido em atraso - ML</div>
+            <div class="kpi-sub"><td><span class="badge badge-outros">Em aberto</span></td></div>
+            <br>
+            <div class="kpi-sub"><td><span class="badge badge-incidente">Tudo Limpinho</span></td></div>
+            <div class="kpi-sub">202512222 <br> F.entrega/Importação de anúncios TikTok</div>
+            <div class="kpi-sub"><td><span class="badge badge-requisicao">Finalizado</span></td></div> -->
+        </div>
+        <div class="card">
+            <h2>Total de Tickets</h2>
+            <div class="kpi-value kpi-ok">41</div>
+            <div class="kpi-sub">Chamados registrados no período</div>
+        </div>
+        <div class="card">
+            <h2>SLA de Primeira Resposta</h2>
+            <div class="kpi-value kpi-alert">82,93% ⚠</div>
+            <div class="kpi-sub">Meta indicada no painel: 90%</div>
+        </div>
+        <div class="card">
+            <h2>SLA de Resolução</h2>
+            <div class="kpi-value kpi-ok">100% ✓</div>
+            <div class="kpi-sub">Meta indicada no painel: 95%</div>
+        </div>
+    </div>
+
+    <!-- Gráficos e tabelas -->
+    <div class="flex-row">
+        <div class="card">
+            <h2>Distribuição por Tipo de Ticket</h2>
+            <canvas id="tipoChart"></canvas>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-incidente">Incidente</span></td>
+                        <td>27</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-requisicao">Requisição</span></td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-outros">Outros</span></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-problema">Problema</span></td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Top 5 Agentes por Volume</h2>
+            <canvas id="agenteChart"></canvas>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Agente</th>
+                        <th>Tickets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Victor Vicentini</td><td>20</td></tr>
+                    <tr><td>Frederico Braga</td><td>12</td></tr>
+                    <tr><td>Vitor Ferreira Souza</td><td>6</td></tr>
+                    <tr><td>Israel Moraes</td><td>3</td></tr>
+                    <tr><td>Suporte Weesu</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Clientes e insights -->
+    <div class="flex-row">
+        <div class="card">
+            <h2>Clientes com Maior Quantidade de Tickets</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Qtd. de Tickets</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Rei dos Térmicos</td><td>5</td></tr>
+                    <tr><td>Delute (Decco)</td><td>5</td></tr>
+                    <tr><td>Hannover</td><td>4</td></tr>
+                    <!--tr><td>EDAUS</td><td>4</td></tr>
+                    <tr><td>Hannover</td><td>4</td></tr-->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Insights Principais</h2>
+            <ul class="insights-list">
+                <li>Volume total de 41 chamados no dia.</li>
+                <li>SLA de primeira resposta em 82,93%, Atraso maximo de 8 minutos em 7 atendimentos (Periodo das 08:01 a 08:09). Equipe já alertada pela queda do SLA de primeira resposta.</li>
+                <li>SLA de resolução em 100%, Atingido com sobra a meta de 95%.</li>
+                <br></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gráfico por tipo
+    const ctxTipo = document.getElementById('tipoChart').getContext('2d');
+    new Chart(ctxTipo, {
+        type: 'pie',
+        data: {
+            labels: ['Incidente', 'Requisição', 'Outros', 'Problema'],
+            datasets: [{
+                data: [27, 12, 1, 1],
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.8)',
+                    'rgba(46, 204, 113, 0.8)',
+                    'rgba(241, 196, 15, 0.8)',
+                    'rgba(231, 76, 60, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(46, 204, 113, 1)',
+                    'rgba(241, 196, 15, 1)',
+                    'rgba(231, 76, 60, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#f5f5f5' } }
+            }
+        }
+    });
+
+    // Gráfico por agente
+    const ctxAgente = document.getElementById('agenteChart').getContext('2d');
+    new Chart(ctxAgente, {
+        type: 'bar',
+        data: {
+            labels: ['Victor Vicentini', 'Frederico Braga', 'Vitor Ferreira Souza', 'Israel Moraes', 'Suporte Weesu'],
+            datasets: [{
+                label: 'Tickets',
+                data: [20, 12, 6, 3, 0],
+                backgroundColor: 'rgba(155, 89, 182, 0.8)',
+                borderColor: 'rgba(155, 89, 182, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#f5f5f5' }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#f5f5f5', stepSize: 5 }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
