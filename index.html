@@ -132,32 +132,33 @@
 <div class="container">
     <div class="header">
         <h1>Relatório de Atendimentos - Suporte Técnico</h1>
-        <p>Período analisado: 30/12/2025</p>
+        <p>Período analisado: 02/01/2025</p>
     </div>
 
     <!-- KPIs principais -->
     <div class="kpi-grid">
         <div class="card">
-            <h2>Demandas Criticas</h2>
-            <!--<div class="kpi-value kpi-ok">✓</div>-->
-            <div class="kpi-value kpi-alert">2</div>
-            <div class="kpi-sub">Triumph - 2025123031</div>
-            <div class="kpi-sub"><td><span class="badge badge-outros">Venda c/ qtd errada</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">Desenvolvimento avaliando</span></td></div>
-            <br>
+            <h2>Sem Demandas Criticas</h2>
+            <!--div class="kpi-value kpi-ok">✓</div-->
+            <div class="kpi-value kpi-alert">1</div>
+            <div class="kpi-sub">RDT MG - </div>
+            <div class="kpi-sub"><td><span class="badge badge-outros">Vendas FULL não integram no HUB</span></td> </div>
+            <div class="kpi-sub"><td><span class="badge badge-incidente">Repassado para avaliação</span></td></div>
+            <!--br>
             <div class="kpi-sub">Hannover - 2025123033</div>
             <div class="kpi-sub"><td><span class="badge badge-outros">Liberação de etiqueta Shein</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">Desenvolvimento avaliando</span></td></div> 
+            <div class="kpi-sub"><td><span class="badge badge-incidente">Desenvolvimento avaliando</span></td></div--> 
         </div>
         <div class="card">
             <h2>Total de Tickets</h2>
-            <div class="kpi-value kpi-ok">33</div>
+            <div class="kpi-value kpi-ok">20</div>
             <div class="kpi-sub">Chamados registrados no período</div>
         </div>
         <div class="card">
             <h2>SLA de Primeira Resposta</h2>
-            <div class="kpi-value kpi-ok">100% ✓</div>
+            <div class="kpi-value kpi-alert">85% ⚠</div>
             <div class="kpi-sub">Meta indicada no painel: 90%</div>
+            <div class="kpi-sub">Duas demandas fora do horário de atendimento</div>
         </div>
         <div class="card">
             <h2>SLA de Resolução</h2>
@@ -181,11 +182,11 @@
                 <tbody>
                     <tr>
                         <td><span class="badge badge-incidente">Incidente</span></td>
-                        <td>14</td>
+                        <td>13</td>
                     </tr>
                     <tr>
                         <td><span class="badge badge-requisicao">Requisição</span></td>
-                        <td>16</td>
+                        <td>5</td>
                     </tr>
                     <tr>
                         <td><span class="badge badge-outros">Outros</span></td>
@@ -193,7 +194,7 @@
                     </tr>
                     <tr>
                         <td><span class="badge badge-problema">Problema</span></td>
-                        <td>2</td>
+                        <td>1</td>
                     </tr>
                 </tbody>
             </table>
@@ -210,10 +211,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Victor Vicentini</td><td>14</td></tr>
-                    <tr><td>Frederico Braga</td><td>8</td></tr>
-                    <tr><td>Vitor Ferreira Souza</td><td>8</td></tr>
-                    <tr><td>Israel Moraes</td><td>3</td></tr>
+                    <tr><td>Victor Vicentini</td><td>8</td></tr>
+                    <tr><td>Frederico Braga</td><td>5</td></tr>
+                    <tr><td>Vitor Ferreira Souza</td><td>5</td></tr>
+                    <tr><td>Israel Moraes</td><td>2</td></tr>
                     <!--<tr><td>Suporte Weesu</td><td>0</td></tr>-->
                 </tbody>
             </table>
@@ -232,9 +233,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Rei dos Térmicos</td><td>5</td></tr>
-                    <tr><td>NinaLu</td><td>4</td></tr>
-                    <tr><td>Karzen</td><td>3</td></tr>
+                    <tr><td>Rei dos Térmicos</td><td>3</td></tr>
+                    <tr><td>Usee</td><td>3</td></tr>
+                    <tr><td>Copar</td><td>2</td></tr>
                     <!--tr><td>EDAUS</td><td>4</td></tr>
                     <tr><td>Hannover</td><td>4</td></tr-->
                 </tbody>
@@ -244,8 +245,8 @@
         <div class="card">
             <h2>Insights Principais</h2>
             <ul class="insights-list">
-                <li>Volume total de 33 chamados no dia.</li>
-                <li>SLA de primeira resposta em 100%, ultrapassando a meta estipulada de 90%.</li>
+                <li>Volume total de 20 chamados no dia.</li>
+                <li>SLA de primeira resposta em 85%, abaixo da meta estipulada de 90%.</li>
                 <li>SLA de resolução em 100%, ultrapassando a meta estipulada de 95%.</li>
                 <br></li>
             </ul>
@@ -261,7 +262,7 @@
         data: {
             labels: ['Incidente', 'Requisição', 'Outros', 'Problema'],
             datasets: [{
-                data: [14, 16, 1, 2],
+                data: [13, 5, 1, 1],
                 backgroundColor: [
                     'rgba(52, 152, 219, 0.8)',
                     'rgba(46, 204, 113, 0.8)',
@@ -292,7 +293,7 @@
             labels: ['Victor Vicentini', 'Frederico Braga', 'Vitor Ferreira Souza', 'Israel Moraes', 'Suporte Weesu'],
             datasets: [{
                 label: 'Tickets',
-                data: [14, 8, 8, 3, 0],
+                data: [8, 5, 5, 2, 0],
                 backgroundColor: 'rgba(155, 89, 182, 0.8)',
                 borderColor: 'rgba(155, 89, 182, 1)',
                 borderWidth: 1,
