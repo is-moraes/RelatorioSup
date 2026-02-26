@@ -1,337 +1,550 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Relatório de Atendimentos - Suporte</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #141e30, #243b55);
-            color: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .header {
-            background: rgba(0,0,0,0.25);
-            padding: 20px 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-        }
-        .header h1 {
-            font-size: 26px;
-            margin-bottom: 6px;
-        }
-        .header p {
-            font-size: 14px;
-            color: #d0d0d0;
-        }
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: rgba(12,20,35,0.95);
-            border-radius: 12px;
-            padding: 16px 18px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-        }
-        .card h2 {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #e0e6ff;
-        }
-        .kpi-value {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .kpi-value2 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .kpi-sub {
-            font-size: 12px;
-            color: #aaaaaa;
-        }
-        
-        .kpi-blue { 
-            font-size: 12px;
-            color:#4aa3ff; 
-        }
-
-        .kpi-ok { color: #4cd964; }
-        .kpi-alert { color: #ffcc00; }
-
-        .flex-row {
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 13px;
-        }
-        .table thead {
-            background: rgba(255,255,255,0.04);
-        }
-        .table th, .table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            text-align: left;
-        }
-        .table th {
-            font-weight: 600;
-            color: #e0e6ff;
-        }
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-size: 11px;
-        }
-        .badge-incidente { background: rgba(52,152,219,0.18); color: #4aa3ff; }
-        .badge-requisicao { background: rgba(46,204,113,0.18); color: #6de08d; }
-        .badge-outros { background: rgba(241,196,15,0.18); color: #f7d95a; }
-        .badge-problema { background: rgba(231,76,60,0.18); color: #ff826e; }
-
-        .insights-list {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .insights-list li {
-            margin-bottom: 6px;
-        }
-
-        canvas {
-            width: 100% !important;
-            max-height: 260px;
-        }
-
-        @media (max-width: 768px) {
-            .flex-row {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>Painel - Repertório de Louvor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin: 0; padding: 16px; background: #f3f4f6; color: #111827; }
+    h1 { margin-bottom: 8px; }
+    h2 { margin-top: 24px; margin-bottom: 8px; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    label { font-size: 0.85rem; display: block; margin-bottom: 4px; }
+    input, select, textarea {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+    textarea { min-height: 60px; }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.08);
+    }
+    .flex { display: flex; gap: 12px; flex-wrap: wrap; }
+    .flex > div { flex: 1 1 220px; }
+    .badge { font-size: 0.75rem; padding: 2px 6px; border-radius: 999px; background: #e5e7eb; margin-left: 6px; }
+    button {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    button.primary {
+      background: #2563eb;
+      color: white;
+    }
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    button.danger { background: #dc2626; color: #fff; }
+    .small { font-size: 0.8rem; color: #6b7280; }
+    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .items-container { border-top: 1px solid #e5e7eb; margin-top: 4px; padding-top: 4px; }
+    .item-row {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 6px;
+      background: #f9fafb;
+    }
+    .item-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+    .code-output {
+      width: 100%;
+      min-height: 160px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #9ca3af;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+      background: #111827;
+      color: #e5e7eb;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>Relatório de Atendimentos - Suporte Técnico</h1>
-        <p>Período analisado: 08/01/2025</p>
+
+  <h1>Painel - Repertório de Louvor</h1>
+  <p class="small">Edite mês, semanas, repertório, links e equipes. Depois clique em <strong>Gerar Script</strong> e cole o resultado na página principal.</p>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <h2>Dados do mês</h2>
+        <div class="flex">
+          <div>
+            <label>Nome do mês (curto) <span class="small">(ex: Fev)</span></label>
+            <input id="nomeMesCurto" value="Fev">
+          </div>
+          <div>
+            <label>Ano</label>
+            <input id="ano" type="number" value="2026">
+          </div>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label>Nome do Ministério</label>
+            <input id="ministerio" value="Ministério de Louvor Betel">
+          </div>
+        </div>
+      </div>
+
+      <div id="semanasContainer"></div>
+
+      <button class="primary" id="btnAdicionarSemana">+ Adicionar semana</button>
+      <button class="secondary" id="btnSalvar">Salvar no navegador</button>
+      <span class="small" id="statusSalvar"></span>
     </div>
 
-    <!-- KPIs principais -->
-    <div class="kpi-grid">
-        <div class="card">
-            <h2>Demandas Criticas</h2>
-            <!--div class="kpi-value kpi-alert">⚠</div-->
-            <div class="kpi-value kpi-alert">1 ⚠</div>
-            <!--div class="kpi-sub">WMS com falha no Dashboard</div-->
-            <div class="kpi-sub"><td><span class="badge badge-outros">Vendas AMZ não liberando Etiqueta</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">V&D - 202610849</span></td></div>
-            <div class="kpi-sub"><td><span class="badge badge-requisicao">Ajustado o causador e vendas anteriores</span></td></div>
-            <!--div class="kpi-sub"><td><span class="badge badge-outros">Venda MELI com erro para reinseri-la via HUB</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">RDTMG - 202610740</span></td></div>
-            <div class="kpi-sub"><td><span class="badge badge-outros">Divergencia de estoque - ZukToys - 202610745</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">ZukToys - 202610745</span></td></div>
-            <div class="kpi-sub"><td><span class="badge badge-outros">Venda MZL não inserida no HUB</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">RGP - 20261074</span></td></div>
-            <div class="kpi-sub"><td><span class="badge badge-outros">Divergência na quantidade para alocação</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">Besser/Karzen - 202610751/202610748</span></td></div-->
-            <!--div class="kpi-sub"><td><span class="badge badge-incidente">Ajustado por Marcos</span></td></div-->
-            <!--div class="kpi-sub"><td><span class="badge badge-requisicao">(Marcos)</span></td></div-->
-            <!--br>
-            <div class="kpi-sub">Hannover - 2025123033</div>
-            <div class="kpi-sub"><td><span class="badge badge-outros">Liberação de etiqueta Shein</span></td> </div>
-            <div class="kpi-sub"><td><span class="badge badge-incidente">Desenvolvimento avaliando</span></td></div--> 
-        </div>
-        <div class="card">
-            <h2>Total de Tickets</h2>
-            <div class="kpi-value kpi-ok">41</div>
-            <div class="kpi-sub">Chamados registrados no período</div>
-        </div>
-        <div class="card">
-            <h2>SLA de Primeira Resposta</h2>
-            <div class="kpi-value kpi-ok">87,80% ✓</div>  <!--⚠-->
-            <div class="kpi-sub">Superado a meta indicada: 90%</div>
-            <!--div class="kpi-sub">Quatro demandas que cairam fora do horário de atendimento</div-->
-        </div>
-        <div class="card">
-            <h2>SLA de Resolução</h2>
-            <div class="kpi-value kpi-ok">97,30% ✓</div>
-            <div class="kpi-sub">Meta indicada no painel: 95%</div>
-        </div>
+    <div>
+      <div class="card">
+        <h2>Script para página principal</h2>
+        <p class="small">
+          1. Clique em <strong>Gerar Script</strong>.<br>
+          2. Copie o código abaixo.<br>
+          3. Na sua página principal, substitua o bloco <code>const mesAtual = { ... }</code> por este novo código.
+        </p>
+        <button class="primary" id="btnGerarScript">Gerar Script</button>
+        <button class="secondary" id="btnCopiarScript">Copiar</button>
+        <br><br>
+        <textarea id="scriptOutput" class="code-output" readonly></textarea>
+      </div>
     </div>
+  </div>
 
-    <!-- Gráficos e tabelas -->
-    <div class="flex-row">
-        <div class="card">
-            <h2>Distribuição por Tipo de Ticket</h2>
-            <canvas id="tipoChart"></canvas>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="badge badge-incidente">Incidente</span></td>
-                        <td>22</td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge badge-requisicao">Requisição</span></td>
-                        <td>11</td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge badge-outros">Outros</span></td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge badge-problema">Problema</span></td>
-                        <td>5</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>Top 5 Agentes por Volume</h2>
-            <canvas id="agenteChart"></canvas>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Agente</th>
-                        <th>Tickets</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Victor Vicentini</td><td>20</td></tr>
-                    <tr><td>Frederico Braga</td><td>10</td></tr>
-                    <tr><td>Vitor Ferreira Souza</td><td>8</td></tr>
-                    <tr><td>Israel Moraes</td><td>2</td></tr>
-                    <tr><td>Suporte Weesu</td><td>1</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Clientes e insights -->
-    <div class="flex-row">
-        <div class="card">
-            <h2>Clientes com Maior Quantidade de Tickets</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Qtd. de Tickets</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>RDT</td><td>5</td></tr>
-                    <tr><td>Hannover</td><td>3</td></tr>
-                    <tr><td>ZukToys</td><td>3</td></tr>
-                    <!--tr><td>EDAUS</td><td>4</td></tr>
-                    <tr><td>Hannover</td><td>4</td></tr-->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>Insights Principais</h2>
-            <ul class="insights-list">
-                <li>Volume total de 41 chamados no dia.</li>
-                <li>33 - HUB</li>
-                <li>7 - WMS</li>
-                <li>1 - Projeto</li>
-                <li>SLA de primeira resposta em 87,80%, Não atigindo a meta meta estipulada de 90% com sucesso.</li>
-                <li>SLA de resolução em 97,30%, ultrapassando a meta estipulada de 95%.</li>
-                <br></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Gráfico por tipo
-    const ctxTipo = document.getElementById('tipoChart').getContext('2d');
-    new Chart(ctxTipo, {
-        type: 'pie',
-        data: {
-            labels: ['Incidente', 'Requisição', 'Outros', 'Problema'],
-            datasets: [{
-                data: [22, 11, 2, 5],
-                backgroundColor: [
-                    'rgba(52, 152, 219, 0.8)',
-                    'rgba(46, 204, 113, 0.8)',
-                    'rgba(241, 196, 15, 0.8)',
-                    'rgba(231, 76, 60, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(52, 152, 219, 1)',
-                    'rgba(46, 204, 113, 1)',
-                    'rgba(241, 196, 15, 1)',
-                    'rgba(231, 76, 60, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                legend: { position: 'bottom', labels: { color: '#f5f5f5' } }
-            }
-        }
+  <script>
+    // ---------- Estrutura base ----------
+    const estruturaSemanaVazia = (numero) => ({
+      numero,
+      dataLabel: "",
+      tema: "",
+      repertorio: [],
+      links: [],
+      vozes: [],
+      instrumentos: [],
+      midiaSom: []
     });
 
-    // Gráfico por agente
-    const ctxAgente = document.getElementById('agenteChart').getContext('2d');
-    new Chart(ctxAgente, {
-        type: 'bar',
-        data: {
-            labels: ['Victor Vicentini', 'Frederico Braga', 'Vitor Ferreira Souza', 'Israel Moraes', 'Suporte Weesu'],
-            datasets: [{
-                label: 'Tickets',
-                data: [20, 10, 8, 2, 1, 1],
-                backgroundColor: 'rgba(155, 89, 182, 0.8)',
-                borderColor: 'rgba(155, 89, 182, 1)',
-                borderWidth: 1,
-                borderRadius: 4
-            }]
-        },
-        options: {
-            plugins: {
-                legend: { display: false },
-                title: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { color: '#f5f5f5' }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: { color: '#f5f5f5', stepSize: 5 }
-                }
-            }
+    let mesAtual = {
+      nomeMesCurto: "Fev",
+      ano: 2026,
+      ministerio: "Ministério de Louvor Betel",
+      semanas: [
+        // Começa vazio; você pode inicializar com dados existentes se quiser
+      ]
+    };
+
+    // ---------- Carregar de localStorage, se existir ----------
+    const STORAGE_KEY = "painelRepertorioMesAtual";
+
+    function carregarDoStorage() {
+      const salvo = localStorage.getItem(STORAGE_KEY);
+      if (salvo) {
+        try {
+          mesAtual = JSON.parse(salvo);
+        } catch (e) {
+          console.error("Erro ao ler storage:", e);
         }
-    });
-</script>
+      }
+      preencherFormulario();
+    }
+
+    function salvarNoStorage() {
+      atualizarObjetoMesAtualAPartirDoForm();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mesAtual));
+      const status = document.getElementById("statusSalvar");
+      status.textContent = "Salvo!";
+      setTimeout(() => status.textContent = "", 2000);
+    }
+
+    // ---------- Construção dinâmica do formulário ----------
+    const semanasContainer = document.getElementById("semanasContainer");
+
+    function criarItemLinha(tipoLista, semanaIndex, itemIndex, item) {
+      const div = document.createElement("div");
+      div.className = "item-row";
+      div.dataset.tipoLista = tipoLista;
+      div.dataset.semanaIndex = semanaIndex;
+      div.dataset.itemIndex = itemIndex;
+
+      let titulo = "";
+      if (tipoLista === "repertorio") titulo = "Música";
+      if (tipoLista === "links") titulo = "Link";
+      if (tipoLista === "vozes") titulo = "Voz";
+      if (tipoLista === "instrumentos") titulo = "Instrumento";
+      if (tipoLista === "midiaSom") titulo = "Mídia/Som";
+
+      div.innerHTML = `
+        <div class="item-row-header">
+          <span>${titulo} #${itemIndex + 1}</span>
+          <button class="danger btn-remover-item" type="button">Remover</button>
+        </div>
+        <div class="flex">
+          ${
+            tipoLista === "repertorio" ? `
+              <div>
+                <label>Nome</label>
+                <input class="inp-nome" value="${item.nome || ""}">
+              </div>
+              <div>
+                <label>Tom</label>
+                <input class="inp-tom" value="${item.tom || ""}">
+              </div>
+              <div>
+                <label>Sequência</label>
+                <input class="inp-sequencia" value="${item.Sequência || ""}">
+              </div>
+            ` : ""
+          }
+          ${
+            tipoLista === "links" ? `
+              <div>
+                <label>Música</label>
+                <input class="inp-musica" value="${item.musica || ""}">
+              </div>
+              <div>
+                <label>Canal</label>
+                <input class="inp-canal" value="${item.canal || ""}">
+              </div>
+              <div>
+                <label>URL YouTube</label>
+                <input class="inp-url" value="${item.url || ""}">
+              </div>
+              <div>
+                <label>URL Cifras</label>
+                <input class="inp-url2" value="${item.url2 || ""}">
+              </div>
+            ` : ""
+          }
+          ${
+            tipoLista === "vozes" ? `
+              <div>
+                <label>Função</label>
+                <input class="inp-funcao" value="${item.funcao || ""}">
+              </div>
+              <div>
+                <label>Nome</label>
+                <input class="inp-nome" value="${item.nome || ""}">
+              </div>
+            ` : ""
+          }
+          ${
+            tipoLista === "instrumentos" ? `
+              <div>
+                <label>Instrumento</label>
+                <input class="inp-instrumento" value="${item.instrumento || ""}">
+              </div>
+              <div>
+                <label>Nome</label>
+                <input class="inp-nome" value="${item.nome || ""}">
+              </div>
+            ` : ""
+          }
+          ${
+            tipoLista === "midiaSom" ? `
+              <div>
+                <label>Área</label>
+                <input class="inp-area" value="${item.area || ""}">
+              </div>
+              <div>
+                <label>Responsável</label>
+                <input class="inp-nome" value="${item.nome || ""}">
+              </div>
+            ` : ""
+          }
+        </div>
+      `;
+      return div;
+    }
+
+    function criarBlocoSemana(semana, index) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.semanaIndex = index;
+
+      card.innerHTML = `
+        <div class="list-header">
+          <h2>Semana ${semana.numero}</h2>
+          <button class="danger btn-remover-semana" type="button">Remover semana</button>
+        </div>
+        <div class="flex">
+          <div>
+            <label>Data (ex: 15/02/2026 · 19h)</label>
+            <input class="inp-dataLabel" value="${semana.dataLabel || ""}">
+          </div>
+          <div>
+            <label>Tema</label>
+            <input class="inp-tema" value="${semana.tema || ""}">
+          </div>
+        </div>
+
+        <div>
+          <div class="list-header">
+            <span><strong>Repertório</strong> <span class="badge">Músicas & Tons</span></span>
+            <button class="secondary btn-add-repertorio" type="button">+ Música</button>
+          </div>
+          <div class="items-container cont-repertorio"></div>
+        </div>
+
+        <div>
+          <div class="list-header">
+            <span><strong>Links</strong> <span class="badge">YouTube / Cifras</span></span>
+            <button class="secondary btn-add-links" type="button">+ Link</button>
+          </div>
+          <div class="items-container cont-links"></div>
+        </div>
+
+        <div>
+          <div class="list-header">
+            <span><strong>Vozes</strong></span>
+            <button class="secondary btn-add-vozes" type="button">+ Voz</button>
+          </div>
+          <div class="items-container cont-vozes"></div>
+        </div>
+
+        <div>
+          <div class="list-header">
+            <span><strong>Instrumentos</strong></span>
+            <button class="secondary btn-add-instrumentos" type="button">+ Instrumento</button>
+          </div>
+          <div class="items-container cont-instrumentos"></div>
+        </div>
+
+        <div>
+          <div class="list-header">
+            <span><strong>Mídia & Som</strong></span>
+            <button class="secondary btn-add-midiaSom" type="button">+ Responsável</button>
+          </div>
+          <div class="items-container cont-midiaSom"></div>
+        </div>
+      `;
+
+      const contRepertorio = card.querySelector(".cont-repertorio");
+      semana.repertorio.forEach((item, idx) => {
+        contRepertorio.appendChild(criarItemLinha("repertorio", index, idx, item));
+      });
+
+      const contLinks = card.querySelector(".cont-links");
+      semana.links.forEach((item, idx) => {
+        contLinks.appendChild(criarItemLinha("links", index, idx, item));
+      });
+
+      const contVozes = card.querySelector(".cont-vozes");
+      semana.vozes.forEach((item, idx) => {
+        contVozes.appendChild(criarItemLinha("vozes", index, idx, item));
+      });
+
+      const contInstrumentos = card.querySelector(".cont-instrumentos");
+      semana.instrumentos.forEach((item, idx) => {
+        contInstrumentos.appendChild(criarItemLinha("instrumentos", index, idx, item));
+      });
+
+      const contMidiaSom = card.querySelector(".cont-midiaSom");
+      semana.midiaSom.forEach((item, idx) => {
+        contMidiaSom.appendChild(criarItemLinha("midiaSom", index, idx, item));
+      });
+
+      return card;
+    }
+
+    function preencherFormulario() {
+      document.getElementById("nomeMesCurto").value = mesAtual.nomeMesCurto || "";
+      document.getElementById("ano").value = mesAtual.ano || "";
+      document.getElementById("ministerio").value = mesAtual.ministerio || "";
+
+      semanasContainer.innerHTML = "";
+      mesAtual.semanas.forEach((semana, idx) => {
+        semanasContainer.appendChild(criarBlocoSemana(semana, idx));
+      });
+      configurarBotoesDentroDasSemanas();
+    }
+
+    function configurarBotoesDentroDasSemanas() {
+      // Remover semana
+      document.querySelectorAll(".btn-remover-semana").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          mesAtual.semanas.splice(idx, 1);
+          // Reorganiza os números das semanas
+          mesAtual.semanas.forEach((s, i) => s.numero = i + 1);
+          preencherFormulario();
+        };
+      });
+
+      // Adicionar itens
+      document.querySelectorAll(".btn-add-repertorio").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          const semana = mesAtual.semanas[idx];
+          semana.repertorio.push({ nome: "", tom: "", Sequência: "" });
+          preencherFormulario();
+        };
+      });
+      document.querySelectorAll(".btn-add-links").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          const semana = mesAtual.semanas[idx];
+          semana.links.push({ musica: "", canal: "", url: "", url2: "" });
+          preencherFormulario();
+        };
+      });
+      document.querySelectorAll(".btn-add-vozes").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          const semana = mesAtual.semanas[idx];
+          semana.vozes.push({ funcao: "Voz", nome: "" });
+          preencherFormulario();
+        };
+      });
+      document.querySelectorAll(".btn-add-instrumentos").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          const semana = mesAtual.semanas[idx];
+          semana.instrumentos.push({ instrumento: "", nome: "" });
+          preencherFormulario();
+        };
+      });
+      document.querySelectorAll(".btn-add-midiaSom").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".card");
+          const idx = parseInt(card.dataset.semanaIndex, 10);
+          const semana = mesAtual.semanas[idx];
+          semana.midiaSom.push({ area: "", nome: "" });
+          preencherFormulario();
+        };
+      });
+
+      // Remover item
+      document.querySelectorAll(".btn-remover-item").forEach(btn => {
+        btn.onclick = () => {
+          const itemRow = btn.closest(".item-row");
+          const tipo = itemRow.dataset.tipoLista;
+          const semanaIndex = parseInt(itemRow.dataset.semanaIndex, 10);
+          const itemIndex = parseInt(itemRow.dataset.itemIndex, 10);
+
+          const semana = mesAtual.semanas[semanaIndex];
+          semana[tipo].splice(itemIndex, 1);
+          preencherFormulario();
+        };
+      });
+    }
+
+    // ---------- Atualizar objeto mesAtual a partir do formulário ----------
+    function atualizarObjetoMesAtualAPartirDoForm() {
+      mesAtual.nomeMesCurto = document.getElementById("nomeMesCurto").value.trim();
+      mesAtual.ano = parseInt(document.getElementById("ano").value, 10);
+      mesAtual.ministerio = document.getElementById("ministerio").value.trim();
+
+      // semanas
+      const cardsSemana = Array.from(document.querySelectorAll("#semanasContainer .card"));
+      mesAtual.semanas = cardsSemana.map((card, idx) => {
+        const semana = {
+          numero: idx + 1,
+          dataLabel: card.querySelector(".inp-dataLabel").value.trim(),
+          tema: card.querySelector(".inp-tema").value.trim(),
+          repertorio: [],
+          links: [],
+          vozes: [],
+          instrumentos: [],
+          midiaSom: []
+        };
+
+        // repertorio
+        card.querySelectorAll(".cont-repertorio .item-row").forEach(row => {
+          semana.repertorio.push({
+            nome: row.querySelector(".inp-nome").value.trim(),
+            tom: row.querySelector(".inp-tom").value.trim(),
+            Sequência: row.querySelector(".inp-sequencia").value.trim()
+          });
+        });
+        // links
+        card.querySelectorAll(".cont-links .item-row").forEach(row => {
+          semana.links.push({
+            musica: row.querySelector(".inp-musica").value.trim(),
+            canal: row.querySelector(".inp-canal").value.trim(),
+            url: row.querySelector(".inp-url").value.trim(),
+            url2: row.querySelector(".inp-url2").value.trim()
+          });
+        });
+        // vozes
+        card.querySelectorAll(".cont-vozes .item-row").forEach(row => {
+          semana.vozes.push({
+            funcao: row.querySelector(".inp-funcao").value.trim(),
+            nome: row.querySelector(".inp-nome").value.trim()
+          });
+        });
+        // instrumentos
+        card.querySelectorAll(".cont-instrumentos .item-row").forEach(row => {
+          semana.instrumentos.push({
+            instrumento: row.querySelector(".inp-instrumento").value.trim(),
+            nome: row.querySelector(".inp-nome").value.trim()
+          });
+        });
+        // midiaSom
+        card.querySelectorAll(".cont-midiaSom .item-row").forEach(row => {
+          semana.midiaSom.push({
+            area: row.querySelector(".inp-area").value.trim(),
+            nome: row.querySelector(".inp-nome").value.trim()
+          });
+        });
+
+        return semana;
+      });
+    }
+
+    // ---------- Gerar script ----------
+    function gerarScript() {
+      atualizarObjetoMesAtualAPartirDoForm();
+      const objetoStr = JSON.stringify(mesAtual, null, 2);
+      const script = `const mesAtual = ${objetoStr};`;
+      document.getElementById("scriptOutput").value = script;
+    }
+
+    // ---------- Eventos principais ----------
+    document.getElementById("btnAdicionarSemana").onclick = () => {
+      const novoNumero = mesAtual.semanas.length + 1;
+      mesAtual.semanas.push(estruturaSemanaVazia(novoNumero));
+      preencherFormulario();
+    };
+
+    document.getElementById("btnSalvar").onclick = salvarNoStorage;
+    document.getElementById("btnGerarScript").onclick = gerarScript;
+
+    document.getElementById("btnCopiarScript").onclick = () => {
+      const txt = document.getElementById("scriptOutput");
+      txt.select();
+      document.execCommand("copy");
+    };
+
+    // ---------- Inicializar ----------
+    carregarDoStorage();
+  </script>
 </body>
 </html>
